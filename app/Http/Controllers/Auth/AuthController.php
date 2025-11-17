@@ -6,17 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Rats\Zkteco\Lib\ZKTeco;
 class AuthController extends Controller
 {
-    public function dbmslogin(Request $request) {
+    public function lcslogin(Request $request) {
         $request->validate([
-        'username' => 'required|string',
+        'email'    => 'required|email',
         'password' => 'required|string'
         ]);
 
-        $credentials = request(['username','password']);
-        if(!Auth::attempt($credentials))
+        $credentials = $request->only('email', 'password');
+        if(!FacadesAuth::attempt($credentials))
         {
         return response()->json([
             'message' => 'Unauthorized'
@@ -24,14 +25,14 @@ class AuthController extends Controller
         }
         $user = $request->user();
         
-        if($user->id != 1) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ],401);
-        }
+        // if($user->id != 1) {
+        //     return response()->json([
+        //         'message' => 'Unauthorized'
+        //     ],401);
+        // }
         $name = '';
-        if($user->info) {
-            $name = $user->info->first_name.' '.$user->info->sur_name;
+        if($user->name) {
+            $name = $user->name;
         }
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->plainTextToken;

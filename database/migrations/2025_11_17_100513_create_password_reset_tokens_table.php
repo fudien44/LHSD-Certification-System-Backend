@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User;
+
 return new class extends Migration
 {
     /**
@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dtr_ams', function (Blueprint $table) {
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->date('date_log')->nullable();
-            $table->time('time_log')->nullable();
-            $table->smallInteger('status')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dtr_ams');
+        Schema::dropIfExists('password_reset_tokens');
     }
 };

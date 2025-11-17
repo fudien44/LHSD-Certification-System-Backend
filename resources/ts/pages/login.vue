@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import axios from 'axios'
-import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
 import authV2LoginIllustrationBorderedDark from '@images/pages/auth-v2-login-illustration-bordered-dark.png'
 import authV2LoginIllustrationBorderedLight from '@images/pages/auth-v2-login-illustration-bordered-light.png'
@@ -10,6 +7,9 @@ import authV2LoginIllustrationLight from '@images/pages/auth-v2-login-illustrati
 import authV2MaskDark from '@images/pages/misc-mask-dark.png'
 import authV2MaskLight from '@images/pages/misc-mask-light.png'
 import { themeConfig } from '@themeConfig'
+import axios from 'axios'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { globals } from '../src/globals'
 definePage({
   meta: {
@@ -28,7 +28,7 @@ const authThemeImg = useGenerateImageVariant(
 
 const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
 
-const username = ref<string>('')
+const email = ref<string>('')
 const password = ref<string>('')
 const isLoggedIn = ref<boolean>(false)
 const showAlert = ref<boolean>(false)
@@ -45,8 +45,8 @@ onMounted(() => {
 
 const login = async () => {
   try {
-    const response = await axios.post(`${API_URL}/api/auth/dbms/login`, {
-      username: username.value,
+    const response = await axios.post(`${API_URL}/api/auth/lcs/login`, {
+     email: email.value,
       password: password.value,
     })
 
@@ -68,7 +68,7 @@ const login = async () => {
   <RouterLink to="/">
     <div class="auth-logo d-flex align-center gap-x-3">
       <h1 class="auth-title">
-        Database Management System
+        LHSD Certification System - Backend
       </h1>
     </div>
   </RouterLink>
@@ -113,7 +113,7 @@ const login = async () => {
             Welcome to <span class="text-capitalize"> {{ themeConfig.app.title }} </span>
           </h4>
           <p class="mb-0">
-            Please login using your HRMIS acoount
+            Please login using your Registered Email
           </p>
         </VCardText>
         <VCardText>
@@ -131,12 +131,12 @@ const login = async () => {
           <VForm @submit.prevent="login">
             <VRow>
               <VCol cols="12">
-                <AppTextField
-                  v-model="username"
+               <AppTextField
+                  v-model="email"
                   autofocus
-                  label="Username"
-                  type="text"
-                  placeholder="············"
+                  label="Email"
+                  type="email"
+                  placeholder="admin@example.com"
                 />
               </VCol>
               <VCol cols="12">

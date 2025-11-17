@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" href="{{ asset('ro12.png') }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DOH XII- DBMS</title>
+  <title>LHSD Certification System - Backend</title>
   <link rel="stylesheet" type="text/css" href="{{ asset('loader.css') }}" />
   @vite(['resources/ts/main.ts'])
 </head>
@@ -21,7 +22,7 @@
       </div>
     </div>
   </div>
-  
+
   <script>
     const loaderColor = localStorage.getItem('vuexy-initial-loader-bg') || '#FFFFFF'
     const primaryColor = localStorage.getItem('vuexy-initial-loader-color') || '#7367F0'
@@ -33,6 +34,7 @@
 
     if (primaryColor)
       document.documentElement.style.setProperty('--initial-loader-color', primaryColor)
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>
