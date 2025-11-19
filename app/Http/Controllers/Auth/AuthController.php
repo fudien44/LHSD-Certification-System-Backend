@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Rats\Zkteco\Lib\ZKTeco;
 class AuthController extends Controller
 {
@@ -17,13 +18,13 @@ class AuthController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-        if(!FacadesAuth::attempt($credentials))
+        if(!Auth::attempt($credentials))
         {
         return response()->json([
-            'message' => 'Unauthorized'
+            'message' => 'Email or Password is incorrect'
         ],401);
         }
-        $user = $request->user();
+        $user = Auth::user();
         
         // if($user->id != 1) {
         //     return response()->json([
@@ -84,20 +85,70 @@ class AuthController extends Controller
         return response()->json(['error' => 'Not authenticated'], 401);
     }
 
-    public function users(Request $request) {
-        $users = User::join('hris_main', 'users.emp_id', '=', 'hris_main.id')
-        ->select('users.id','users.email', 'hris_main.first_name','hris_main.sur_name','hris_main.middle_name',
-        'hris_main.picture_link as pic',
-        'positions.position as pos',
-            'divisions.description as off',
-            'sections.station as sec',
-        )->leftJoin('hr_infos as hr_infos', 'hris_main.id','=','hr_infos.emp_id')
-        ->leftJoin('positions as positions','hr_infos.position_id','=','positions.id')
-        ->leftJoin('sections as sections','hr_infos.section_id','=','sections.id')
-        ->leftJoin('divisions as divisions','hr_infos.division_id','=','divisions.id')
-        ->orderBy('hris_main.sur_name', 'asc')->get();
-        return response()->json($users);
+    public function users() {
+     $users = User::select('id', 'name', 'email', 'created_at')
+                 ->orderBy('id', 'asc')
+                 ->get();
+
+    return response()->json($users);
     }
+
+    // CREATE
+        public function storeUser(Request $request)
+        {
+            $validated = $request->validate([
+                'name'     => 'required|string|max:255',
+                'email'    => 'required|email|max:255|unique:users,email',
+                'password' => 'required|string|min:8',
+            ]);
+
+            $user = User::create([
+                'name'     => $validated['name'],
+                'email'    => $validated['email'],
+                'password' => Hash::make($validated['password']),
+            ]);
+
+            return response()->json($user, 201);
+        }
+
+        // UPDATE
+        public function updateUser(Request $request, User $user)
+        {
+            $validated = $request->validate([
+                'name'     => 'required|string|max:255',
+                'email'    => [
+                    'required',
+                    'email',
+                    'max:255',
+                    Rule::unique('users', 'email')->ignore($user->id),
+                ],
+                'password' => 'nullable|string|min:8',
+            ]);
+
+            $user->name  = $validated['name'];
+            $user->email = $validated['email'];
+
+            if (!empty($validated['password'])) {
+                $user->password = Hash::make($validated['password']);
+            }
+
+            $user->save();
+
+            return response()->json($user);
+        }
+
+        // DELETE
+        public function destroyUser(User $user)
+        {
+            // optional: prevent deleting yourself
+            if (Auth::id() === $user->id) {
+                return response()->json(['message' => 'Cannot delete currently logged in user'], 422);
+            }
+
+            $user->delete();
+
+            return response()->json(['message' => 'User deleted']);
+        }
     public function validateToken() {
         if (Auth::check()) {
             return response()->json(['valid' => true]);

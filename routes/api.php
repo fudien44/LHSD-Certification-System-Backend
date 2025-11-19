@@ -28,6 +28,9 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('validate-token', [AuthController::class, 'validateToken']);
     Route::get('users', [AuthController::class, 'users']);
+     Route::post('users', [AuthController::class, 'storeUser']);     // create
+    Route::put('users/{user}', [AuthController::class, 'updateUser']); // update
+    Route::delete('users/{user}', [AuthController::class, 'destroyUser']); // delete
     // Route::get('dtr', [DtrController::class, 'dtr']);
   });
 });
@@ -177,11 +180,11 @@ Route::group(['prefix' => 'attendance'], function () {
     // Route::get('/view-attendance-user', [AttendanceCtrl::class, 'attendanceUser']);
   });
 });
-
+Route::group(['middleware' => 'auth:sanctum'], function () {
 Route::get('/auth/status', function () {
     return response()->json([
         'logged_in' => FacadesAuth::check(),
         'user' => FacadesAuth::user(),
     ]);
 });
-
+ });

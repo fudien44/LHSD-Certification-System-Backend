@@ -68,7 +68,7 @@ const login = async () => {
   <RouterLink to="/">
     <div class="auth-logo d-flex align-center gap-x-3">
       <h1 class="auth-title">
-        LHSD Certification System - Backend
+        LHSD Certification System - Admin
       </h1>
     </div>
   </RouterLink>
