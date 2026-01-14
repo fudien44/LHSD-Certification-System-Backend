@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ProgramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
@@ -35,6 +36,16 @@ Route::group(['prefix' => 'auth'], function () {
   });
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+
+   
+    Route::get('/programs', [ProgramController::class, 'index']);
+Route::post('/programs', [ProgramController::class, 'store']);
+Route::put('/programs/{id}', [ProgramController::class, 'update']);
+Route::delete('/programs/{id}', [ProgramController::class, 'destroy']);
+
+});
+
 
 Route::group(['prefix' => 'manage'], function () {
   Route::group(['middleware' => 'auth:sanctum'], function () {
@@ -47,7 +58,6 @@ Route::group(['prefix' => 'manage'], function () {
   });
 });
 
-//Employees Portal
 // Route::group(['prefix' => 'employee'], function () {
 //   Route::group(['middleware' => 'auth:sanctum'], function () {
 //     Route::get('me', [ProfileCtrl::class, 'me']);

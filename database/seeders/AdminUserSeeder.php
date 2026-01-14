@@ -16,9 +16,9 @@ class AdminUserSeeder extends Seeder
     {
         //
          User::updateOrCreate(
-            ['email' => 'admin@example.com'],   // unique identifier
+            ['email' => 'aldwincarl.acl@gmail.com'],   // unique identifier
             [
-                'name' => 'System Administrator',
+                'name' => 'Aldwin Carl Llenado',
                 'password' => Hash::make('admin123'), // change this!
             ]
         );

@@ -2,11 +2,11 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import type { App } from 'vue'
 import type { RouteRecordRaw } from 'vue-router/auto'
 import { createRouter, createWebHistory } from 'vue-router/auto'
+import ApplicationRoutes from './ApplicationRoutes'
 import LndRoutes from './LndRoutes'
 import ManageRoutes from './ManageRoutes'
 import PmRoutes from './PmRoutes'
 import RnrRoutes from './RnrRoutes'
-import RspRoutes from './RspRoutes'
 
 function recursiveLayouts(route: RouteRecordRaw): RouteRecordRaw {
   if (route.children) {
@@ -29,7 +29,7 @@ const router = createRouter({
     return { top: 0 }
   },
   extendRoutes: pages => [
-    ...RspRoutes.map(route => recursiveLayouts(route)),
+    ...ApplicationRoutes.map(route => recursiveLayouts(route)),
     ...LndRoutes.map(route => recursiveLayouts(route)),
     ...PmRoutes.map(route => recursiveLayouts(route)),
     ...RnrRoutes.map(route => recursiveLayouts(route)),

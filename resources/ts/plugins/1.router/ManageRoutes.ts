@@ -8,19 +8,15 @@ const LndRoutes: RouteRecordRaw[] = [
     children: [
       {
         name: 'Users',
-        path: '/manage/users',
+        path: 'Users',
         component: () => import('@/pages/manage/users.vue'),
       },
       {
-        name: 'Dtr',
-        path: '/manage/dtr-management',
-        component: () => import('@/pages/manage/dtrreg.vue'),
+        name: 'Programs',
+        path: 'Programs',
+        component: () => import('@/pages/manage/programs.vue'),
       },
-      {
-        name: 'DtrView',
-        path: '/manage/dtr/view/:id',
-        component: () => import('@/pages/manage/dtrview.vue'),
-      },
+      
     ],
   },
 ]

@@ -41,14 +41,15 @@ declare module 'vue-router/auto/routes' {
   export interface RouteNamedMap {
     'root': RouteRecordInfo<'root', '/', Record<never, never>, Record<never, never>>,
     '$error': RouteRecordInfo<'$error', '/:error(.*)', { error: ParamValue<true> }, { error: ParamValue<false> }>,
+    'application': RouteRecordInfo<'application', '/application', Record<never, never>, Record<never, never>>,
+    'application-jobs': RouteRecordInfo<'application-jobs', '/application/jobs', Record<never, never>, Record<never, never>>,
+    'application-review': RouteRecordInfo<'application-review', '/application/review', Record<never, never>, Record<never, never>>,
+    'application-schedule': RouteRecordInfo<'application-schedule', '/application/schedule', Record<never, never>, Record<never, never>>,
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,
-    'manage-dtrreg': RouteRecordInfo<'manage-dtrreg', '/manage/dtrreg', Record<never, never>, Record<never, never>>,
-    'manage-dtrview': RouteRecordInfo<'manage-dtrview', '/manage/dtrview', Record<never, never>, Record<never, never>>,
+    'manage-programs': RouteRecordInfo<'manage-programs', '/manage/programs', Record<never, never>, Record<never, never>>,
     'manage-sample': RouteRecordInfo<'manage-sample', '/manage/sample', Record<never, never>, Record<never, never>>,
     'manage-users': RouteRecordInfo<'manage-users', '/manage/users', Record<never, never>, Record<never, never>>,
     'manage-vpn': RouteRecordInfo<'manage-vpn', '/manage/vpn', Record<never, never>, Record<never, never>>,
-    'rsp-evaluation': RouteRecordInfo<'rsp-evaluation', '/rsp/evaluation', Record<never, never>, Record<never, never>>,
-    'rsp-jobs': RouteRecordInfo<'rsp-jobs', '/rsp/jobs', Record<never, never>, Record<never, never>>,
   }
 }
 
